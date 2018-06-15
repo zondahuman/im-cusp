@@ -13,6 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by abin on 2018/6/14.
@@ -41,7 +43,8 @@ public class ImServerHandler extends ChannelInboundHandlerAdapter {
             SmartCarProtocol response = new SmartCarProtocol(str.getBytes().length,
                     str.getBytes());
             // 当服务端完成写操作后，关闭与客户端的连接
-            ctx.writeAndFlush(response);
+//            ctx.writeAndFlush(response);
+            loginService(ctx, response);
             // .addListener(ChannelFutureListener.CLOSE);
 
             // 当有写操作时，不需要手动释放msg的引用
@@ -60,7 +63,8 @@ public class ImServerHandler extends ChannelInboundHandlerAdapter {
             SmartCarProtocol response = new SmartCarProtocol(str.getBytes().length,
                     str.getBytes());
             // 当服务端完成写操作后，关闭与客户端的连接
-            channel.writeAndFlush(response);
+//            channel.writeAndFlush(response);
+            chatService(channel,response);
             // .addListener(ChannelFutureListener.CLOSE);
 
             // 当有写操作时，不需要手动释放msg的引用
@@ -69,6 +73,33 @@ public class ImServerHandler extends ChannelInboundHandlerAdapter {
 
 
     }
+
+    public void loginService(ChannelHandlerContext ctx ,SmartCarProtocol response){
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                // 当服务端完成写操作后，关闭与客户端的连接
+                ctx.writeAndFlush(response);
+                // .addListener(ChannelFutureListener.CLOSE);
+
+                // 当有写操作时，不需要手动释放msg的引用
+                // 当只有读操作时，才需要手动释放msg的引用
+            }
+        });
+    }
+
+    public void chatService(Channel channel ,SmartCarProtocol response){
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                channel.writeAndFlush(response);
+            }
+        });
+    }
+
+
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
