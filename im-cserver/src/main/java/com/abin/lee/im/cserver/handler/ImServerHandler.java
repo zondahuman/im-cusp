@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,8 @@ import java.util.concurrent.Executors;
 
 public class ImServerHandler extends ChannelInboundHandlerAdapter {
     private static Logger LOGGER = LogManager.getLogger(ImServerHandler.class);
+    // 心跳丢失计数器
+    private int counter;
 
     // 用于获取客户端发送的信息
     @Override
@@ -106,5 +109,22 @@ public class ImServerHandler extends ChannelInboundHandlerAdapter {
             throws Exception {
         // cause.printStackTrace();
         ctx.close();
+    }
+
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+            // 不管是读事件空闲还是写事件空闲都向服务器发送心跳包
+        if (evt instanceof IdleStateEvent) {
+            // 空闲6s之后触发 (心跳包丢失)
+            if (counter >= 3) {
+                // 连续丢失3个心跳包 (断开连接)
+                ctx.channel().close().sync();
+                System.out.println("已与Client断开连接");
+            } else {
+                counter++;
+                System.out.println("丢失了第 " + counter + " 个心跳包");
+            }
+        }
     }
 }

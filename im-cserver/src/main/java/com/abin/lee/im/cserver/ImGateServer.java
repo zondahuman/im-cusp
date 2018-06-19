@@ -5,6 +5,7 @@ package com.abin.lee.im.cserver;
  */
 
 import com.abin.lee.im.cserver.handler.ImServerHandler;
+import com.abin.lee.im.cserver.handler.heart.HeartbeatHandlerInitializer;
 import com.abin.lee.im.custom.common.protocol.SmartCarDecoder;
 import com.abin.lee.im.custom.common.protocol.SmartCarEncoder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -58,6 +59,8 @@ public class ImGateServer {
             ch.pipeline().addLast(new SmartCarDecoder());
             // 处理网络IO
             ch.pipeline().addLast(new ImServerHandler());
+            ch.pipeline().addLast(new HeartbeatHandlerInitializer());
+
         }
     }
 
