@@ -19,12 +19,32 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by abin on 2018/6/14.
+ * 2.2 读操作流程
+ 调用AbstractNioByteChannel的read()方法，
+ 　　典型的autoRead流程如下：
+ 　　1. 当socket建立连接时，Netty触发一个inbound事件channelActive，然后提交一个read()请求给本身(参考DefaultChannelPipeline.fireChannelActive())
+ 　　2. 接收到read()请求后，Netty从socket读取消息。
+ 　　3. 当读取到消息时，Netty触发channelRead()。
+ 　　4. 当读取不到消息后，Netty触发ChannelReadCompleted().
+ 　　5. Netty提交另外一个read()请求来继续从socket中读取消息。
+        https://www.cnblogs.com/davidwang456/p/5046406.html?_t_t_t=0.7203660614322871
  */
 
 public class ImServerHandler extends ChannelInboundHandlerAdapter {
     private static Logger LOGGER = LogManager.getLogger(ImServerHandler.class);
     // 心跳丢失计数器
     private int counter;
+
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+    }
 
     // 用于获取客户端发送的信息
     @Override
