@@ -11,6 +11,7 @@ import io.netty.util.CharsetUtil;
 
 /**
  * Created by abin on 2018/6/19.
+ * 心跳如果超时的话，在userEventTriggered里调用channel.close接口然后在相应的handler移除链接，
  */
 public class HeartbeatServerHandler extends ChannelInboundHandlerAdapter {
 
