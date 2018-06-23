@@ -19,9 +19,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-public class ImGateServer {
+public class ImNettyTcpServer {
 
-    public ImGateServer() {
+    public ImNettyTcpServer() {
     }
 
     public void bind(int port) throws Exception {
@@ -65,6 +65,6 @@ public class ImGateServer {
     }
 
     public static void main(String[] args) throws Exception {
-        new ImGateServer().bind(9999);
+        new ImNettyTcpServer().bind(9999);
     }
 }
