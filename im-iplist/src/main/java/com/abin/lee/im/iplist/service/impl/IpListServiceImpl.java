@@ -2,11 +2,8 @@ package com.abin.lee.im.iplist.service.impl;
 
 import com.abin.lee.im.iplist.service.IpListService;
 import com.abin.lee.im.iplist.util.GateWayUtil;
-import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by abin on 2018/6/26.
@@ -18,7 +15,7 @@ public class IpListServiceImpl implements IpListService {
 
     @Override
     public String roundRobin() {
-        String result = getDynamicIp() ;
+        String result = getDynamicIp();
         return result;
     }
 
@@ -26,23 +23,22 @@ public class IpListServiceImpl implements IpListService {
         String result = "";
         result = GateWayUtil.list.get(mobileIndex % GateWayUtil.list.size());
         this.setIndex(mobileIndex);
-        return result ;
+        return result;
     }
 
-    public void setIndex(int index){
+    public void setIndex(int index) {
         mobileIndex++;
-        if(index >= SET_MAX)
+        if (index >= SET_MAX)
             mobileIndex = 0;
     }
 
     @Test
-    public void testDynamicIp1(){
-        for (int i = 0; i <10 ; i++) {
-            String result = getDynamicIp() ;
+    public void testDynamicIp1() {
+        for (int i = 0; i < 10; i++) {
+            String result = getDynamicIp();
             System.out.println("result = " + result);
         }
     }
-
 
 
 }
