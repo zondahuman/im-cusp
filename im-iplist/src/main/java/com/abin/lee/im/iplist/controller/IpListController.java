@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class IpListController {
 
-
     @Autowired
     IpListService ipListService;
 

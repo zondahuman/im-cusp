@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Service
 public class IpListServiceImpl implements IpListService {
-    private int index = 0;
+    private int mobileIndex = 0;
     private static final Integer SET_MAX = Integer.MAX_VALUE;
 
     @Override
@@ -24,15 +24,15 @@ public class IpListServiceImpl implements IpListService {
 
     public String getDynamicIp() {
         String result = "";
-        result = GateWayUtil.list.get(index % GateWayUtil.list.size());
-        this.setIndex(index);
+        result = GateWayUtil.list.get(mobileIndex % GateWayUtil.list.size());
+        this.setIndex(mobileIndex);
         return result ;
     }
 
     public void setIndex(int index){
-        index++;
+        mobileIndex++;
         if(index >= SET_MAX)
-            index = 0;
+            mobileIndex = 0;
     }
 
     @Test
