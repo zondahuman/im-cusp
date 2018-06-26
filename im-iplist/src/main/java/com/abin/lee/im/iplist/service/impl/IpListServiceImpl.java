@@ -1,6 +1,7 @@
 package com.abin.lee.im.iplist.service.impl;
 
 import com.abin.lee.im.iplist.service.IpListService;
+import com.abin.lee.im.iplist.util.GateWayUtil;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.springframework.stereotype.Service;
@@ -12,28 +13,18 @@ import java.util.List;
  */
 @Service
 public class IpListServiceImpl implements IpListService {
-    private volatile Integer index = 0;
+    private int index = 0;
     private static final Integer SET_MAX = Integer.MAX_VALUE;
 
     @Override
     public String roundRobin() {
-        return null;
-    }
-
-
-
-    public List<String> createList() {
-        List<String> list = Lists.newArrayList();
-        for (int i = 0; i < 5; i++) {
-            list.add("192.168.1.10" + i + ":1001" + i);
-        }
-        return list;
+        String result = getDynamicIp() ;
+        return result;
     }
 
     public String getDynamicIp() {
         String result = "";
-        List<String> total = createList() ;
-        result = total.get(index % total.size());
+        result = GateWayUtil.list.get(index % GateWayUtil.list.size());
         this.setIndex(index);
         return result ;
     }

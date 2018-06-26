@@ -47,5 +47,31 @@ public class RoundRobinTest {
         }
     }
 
+    @Test
+    public void testRoundRobinRepeat() {
+        try {
+            for (int i = 0; i <10 ; i++) {
+                CloseableHttpClient httpClient = HttpClientUtil.getHttpClient();
+                List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+                nvps.add(new BasicNameValuePair("listName", "second"));
+                int id = (int)(Math.random()*10000000L);
+                nvps.add(new BasicNameValuePair("keyName", "" + id));
+                HttpPost httpPost = new HttpPost(httpURL);
+//            httpPost.setHeader("Cookie", getCookie());
+//            httpPost.setHeader("Cookie", "JSESSIONID=7588C522A6900BFD581AA18FDA64D347");
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
+                System.out.println("Executing request: " + httpPost.getRequestLine());
+                HttpResponse response = httpClient.execute(httpPost);
+                System.out.println("----------------------------------------");
+                System.out.println(response.getStatusLine());
+                System.out.println(EntityUtils.toString(response.getEntity()));
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 }
