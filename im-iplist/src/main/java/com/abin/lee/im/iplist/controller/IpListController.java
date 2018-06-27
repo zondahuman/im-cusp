@@ -18,7 +18,11 @@ public class IpListController {
     @Autowired
     IpListService ipListService;
 
-
+    /**
+     * 轮询算法得到ip:port
+     * @param listName
+     * @return
+     */
     @RequestMapping(value = "/roundRobin")
     @ResponseBody
     public String roundRobin(String listName) {
