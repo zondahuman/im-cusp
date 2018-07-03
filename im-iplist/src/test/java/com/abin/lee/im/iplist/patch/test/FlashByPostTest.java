@@ -6,6 +6,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -19,10 +20,10 @@ import java.util.List;
  * spring-boot-start2
  * com.abin.lee.spring.boot.mybatis.test
  */
-public class FlashByPatchTest {
+public class FlashByPostTest {
 
-        private static final String httpURL = "http://localhost:8099/spikeRequest/spikePatch";
-//    private static final String httpURL = "http://localhost:8099/spikeRequest/spikePatch";
+        private static final String httpURL = "http://localhost:8099/spikeRequest/spikePost";
+//    private static final String httpURL = "http://localhost:8099/spikeRequest/spikePost";
 
     @Test
     public void testFlashByLua() {
@@ -32,7 +33,7 @@ public class FlashByPatchTest {
             nvps.add(new BasicNameValuePair("userName", "second"));
             int id = (int)(Math.random()*10000000L);
 //            nvps.add(new BasicNameValuePair("id", "" + id));
-            HttpPatch httpPost = new HttpPatch(httpURL);
+            HttpPost httpPost = new HttpPost(httpURL);
 //            httpPost.setHeader("Cookie", getCookie());
 //            httpPost.setHeader("Cookie", "JSESSIONID=7588C522A6900BFD581AA18FDA64D347");
 

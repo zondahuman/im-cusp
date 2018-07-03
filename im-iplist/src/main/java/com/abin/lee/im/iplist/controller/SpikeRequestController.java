@@ -5,6 +5,7 @@ import com.abin.lee.im.iplist.model.SpikeModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,7 +36,35 @@ public class SpikeRequestController {
     }
 
 
+    @RequestMapping(value = "/spikePost")
+    @ResponseBody
+    public String spikePost(SpikeModel spikeModel) {
+        String result = "FAILURE";
+        try {
+            System.out.println("-----------------------------------------------");
+            System.out.println("spikeModel----" + JsonUtil.toJson(spikeModel));
+            System.out.println("-----------------------------------------------");
+            result = "SUCCESS";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
+    @PutMapping(value = "/spikePut")
+    @ResponseBody
+    public String spikePut(SpikeModel spikeModel) {
+        String result = "FAILURE";
+        try {
+            System.out.println("-----------------------------------------------");
+            System.out.println("spikeModel----" + JsonUtil.toJson(spikeModel));
+            System.out.println("-----------------------------------------------");
+            result = "SUCCESS";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 
 
